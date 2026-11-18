@@ -401,7 +401,7 @@
         <input type="text" placeholder="Valor 2" oninput="actualizarTexto('val-ref-2', this.value)">
 
         <h3>Ingresos</h3>
-        <input type="text" inputmode="numeric" placeholder="$ 0.000.000"
+        <input type="text" placeholder="$ 0.000.000 o nombre del codeudor"
             oninput="actualizarIngreso(this, 'total-ing')">
     </div>
 
@@ -545,35 +545,53 @@ grid.innerHTML += `
             document.getElementById('plantilla-canvas').style.background = `linear-gradient(135deg, ${lightColor} 0%, #ffffff 50%, ${lightColor} 100%)`;
         }
 
-        /* ====== FORMATO DE MILES PARA INGRESOS ====== */
+        /* ====== FORMATO DE INGRESOS (NÚMERO CON PUNTOS O TEXTO) ====== */
         function formatearMiles(valor) {
             const soloNumeros = String(valor).replace(/\D/g, '');
             return soloNumeros.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
+        // Solo números (permite espacios y puntos mientras se escribe)
+        function esValorNumerico(valor) {
+            return /^[\d.\s]*$/.test(valor) && /\d/.test(valor);
+        }
+
+        // Si es número le pone los puntos de miles; si tiene letras, lo deja igual
+        function formatearIngreso(valor) {
+            const texto = String(valor);
+            return esValorNumerico(texto) ? formatearMiles(texto) : texto;
+        }
+
         function actualizarIngreso(input, idDestino) {
-            const posAntes = input.selectionStart || 0;
-            const digitosAntes = input.value.slice(0, posAntes).replace(/\D/g, '').length;
-            const formateado = formatearMiles(input.value);
-            input.value = formateado;
+            const valor = input.value;
 
-            // Deja el cursor detrás del mismo dígito aunque se edite en medio
-            let pos = 0, contados = 0;
-            while (pos < formateado.length && contados < digitosAntes) {
-                if (/\d/.test(formateado[pos])) contados++;
-                pos++;
+            if (esValorNumerico(valor)) {
+                const posAntes = input.selectionStart || 0;
+                const digitosAntes = valor.slice(0, posAntes).replace(/\D/g, '').length;
+                const formateado = formatearMiles(valor);
+                input.value = formateado;
+
+                // Deja el cursor detrás del mismo dígito aunque se edite en medio
+                let pos = 0, contados = 0;
+                while (pos < formateado.length && contados < digitosAntes) {
+                    if (/\d/.test(formateado[pos])) contados++;
+                    pos++;
+                }
+                input.setSelectionRange(pos, pos);
+
+                actualizarTexto(idDestino, formateado);
+            } else {
+                // Permite escribir texto, por ejemplo el nombre del codeudor
+                actualizarTexto(idDestino, valor.trim());
             }
-            input.setSelectionRange(pos, pos);
-
-            actualizarTexto(idDestino, formateado);
         }
 
         function actualizarTexto(id, valor) {
             const el = document.getElementById(id);
             if (!el) return;
 
-            // Los ingresos siempre se muestran con puntos de miles
-            if (id === "total-ing") valor = formatearMiles(valor);
+            // Los ingresos muestran puntos de miles si son números; si es texto, se respeta
+            if (id === "total-ing") valor = formatearIngreso(valor);
 
             if (valor.trim() === "") {
                 if (id === "display-apellido") el.innerText = "_____";
@@ -698,7 +716,7 @@ grid.innerHTML += `
                             const attr = i.getAttribute('oninput');
                             return attr && attr.includes(`'${id}'`);
                         });
-                    if (input) input.value = (id === 'total-ing') ? formatearMiles(valor) : valor;
+                    if (input) input.value = (id === 'total-ing') ? formatearIngreso(valor) : valor;
                 }
             }
 
