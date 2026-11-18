@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ingreso de Familias FLI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #2563eb;
+            --azul-claro: #60a5fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e8f1ff 0%, #ffffff 50%, #e8f1ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 1020px;
+            text-align: center;
+        }
+
+        .jaguar {
+            width: 150px;
+            max-width: 45vw;
+            display: block;
+            margin: 0 auto 6px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0 0 6px;
+            color: #111;
+            font-weight: 800;
+        }
+
+        .sub {
+            margin: 0 0 28px;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        a.opcion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 3px solid var(--azul);
+            border-radius: 16px;
+            padding: 24px 18px 20px;
+            text-decoration: none;
+            color: #111;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        a.opcion:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(37, 99, 235, 0.24);
+        }
+
+        a.opcion .num {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--azul);
+            line-height: 1;
+        }
+
+        a.opcion .nombre {
+            font-weight: 800;
+            font-size: 1.02rem;
+            line-height: 1.25;
+        }
+
+        a.opcion .detalle {
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <img class="jaguar" src="jaguar oficla del sistema.png" alt="Jaguar Liceo Inglés">
+        <h1>Sistema de Ingreso de Familias</h1>
+        <p class="sub">Selecciona el tipo de familia para generar la plantilla.</p>
+
+        <div class="grid">
+            <a class="opcion" href="1-hijo/">
+                <span class="num">1</span>
+                <span class="nombre">Sistema: Familia con 1 Hijo</span>
+                <span class="detalle">3 integrantes · 1 esfera</span>
+            </a>
+
+            <a class="opcion" href="2-hijos/">
+                <span class="num">2</span>
+                <span class="nombre">Sistema: Familia con 2 Hijos</span>
+                <span class="detalle">4 integrantes · 2 esferas</span>
+            </a>
+
+            <a class="opcion" href="3-hijos/">
+                <span class="num">3</span>
+                <span class="nombre">Sistema: Familia con 3 Hijos</span>
+                <span class="detalle">5 integrantes · 3 esferas</span>
+            </a>
+
+            <a class="opcion" href="1-hijo-1-padre/">
+                <span class="num">1+1</span>
+                <span class="nombre">Sistema: Familia con 1 Hijo y 1 Padre</span>
+                <span class="detalle">2 integrantes · 1 esfera</span>
+            </a>
+        </div>
+
+        <footer>Liceo Inglés · FLI</footer>
+    </div>
+</body>
+
+</html>
