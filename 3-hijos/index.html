@@ -482,7 +482,7 @@ grid.innerHTML += `
      <div class="bloque-ingresos-lateral">
     <div class="titulo-referencias">INGRESOS TOTALES</div>
     <div class="ref-box" style="text-decoration: none !important; font-weight: normal;">
-        <span style="text-decoration: none !important; font-weight: bold;">$ <span id="total-ing"></span></span>
+        <span style="text-decoration: none !important; font-weight: bold;"><span id="signo-ingresos">$ </span><span id="total-ing"></span></span>
     </div>
 </div>
 `;
@@ -597,7 +597,12 @@ grid.innerHTML += `
             if (!el) return;
 
             // Los ingresos muestran puntos de miles si son números; si es texto, se respeta
-            if (id === "total-ing") valor = formatearIngreso(valor);
+            if (id === "total-ing") {
+                valor = formatearIngreso(valor);
+                // El "$" solo aparece cuando hay un monto numérico (no con nombres)
+                const signo = document.getElementById('signo-ingresos');
+                if (signo) signo.style.display = (!valor.trim() || esValorNumerico(valor)) ? 'inline' : 'none';
+            }
 
             if (valor.trim() === "") {
                 if (id === "display-apellido") el.innerText = "_____";
